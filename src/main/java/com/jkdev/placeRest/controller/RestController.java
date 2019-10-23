@@ -116,7 +116,7 @@ public class RestController {
                 throw new PlaceAlreadyAddedException("Place is already in service!");
             }
         }
-        place.setId(0L);
+        place.setId(0);
 
         placeService.savePlace(place);
 

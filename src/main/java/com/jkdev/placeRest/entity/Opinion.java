@@ -28,7 +28,7 @@ public class Opinion {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "comment")
     private String comment;
