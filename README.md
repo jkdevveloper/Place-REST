@@ -32,9 +32,6 @@ Via: 1.1 vegur
 {"id":11,"name":"Test","localisation":"Test","openingHours":"11-12","phone":"3456493403","opinionList":[]},
 {"id":1,"name":"Zoo","localisation":"ul.zoo, Cracow","openingHours":"10-18","phone":"535030936","opinionList":[]}]
 
-
-Error response:
-
 ```
 
 ## To get a place with specific id
