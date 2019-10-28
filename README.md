@@ -138,3 +138,9 @@ curl -X DELETE/GET/PUT -i http://place-rest-api.herokuapp.com/places/{place.id}/
 
 ## Contributing
 For major problems, please open an issue to discuss about the bugs and help me fix it.
+
+## TODO
+- Create custom exceptions
+- Secure API with Spring Security
+- Change data layer to use Spring Data JPA
+- Migrate database to PostgreSQL
