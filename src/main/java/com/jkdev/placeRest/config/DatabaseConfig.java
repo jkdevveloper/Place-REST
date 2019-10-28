@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import java.util.logging.Logger;
 
 @Configuration
-@EnableJpaRepositories("com.jkdev.placeRest.repository")
 public class DatabaseConfig implements WebMvcConfigurer {
 
     private Logger logger = Logger.getLogger(getClass().getName());
@@ -25,10 +24,6 @@ public class DatabaseConfig implements WebMvcConfigurer {
     @Bean
     DataSource dataSource() {
 
-        /*return DataSourceBuilder.create().url("jdbc:mysql://us-cdbr-iron-east-05.cleardb.net/heroku_b60a08d9c1a257a?useSSL=false&serverTimezone=UTC").
-                driverClassName("com.mysql.cj.jdbc.Driver").
-                username("bd468378fdca6e").
-                password("4ad2bbad").build();*/
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://us-cdbr-iron-east-05.cleardb.net/heroku_b60a08d9c1a257a?useSSL=false&serverTimezone=UTC");

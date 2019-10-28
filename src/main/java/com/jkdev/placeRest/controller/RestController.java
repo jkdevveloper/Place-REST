@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
 
@@ -136,6 +135,6 @@ public class RestController {
 
         placeService.deletePlace(placeId);
 
-        return "Deleted customer id - " + placeId;
+        return "Deleted place with id - " + placeId;
     }
 }
