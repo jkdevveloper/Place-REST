@@ -36,10 +36,8 @@ public class DatabaseConfig implements WebMvcConfigurer {
     @Bean
     public LocalSessionFactoryBean sessionFactory() {
 
-        // create session factorys
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 
-        // set the properties
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("com.jkdev.placeRest.entity");
 
