@@ -5,14 +5,12 @@ import com.jkdev.placeRest.entity.Place;
 import com.jkdev.placeRest.service.PlaceServiceImpl;
 import static org.junit.Assert.*;
 
-import org.junit.Rule;
 import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
+
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import static org.mockito.Mockito.*;
 
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +23,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 class PlaceDataLayerTests {
+
 
 	@Mock
 	private PlaceDAOImpl placeDAO;
@@ -99,28 +98,46 @@ class PlaceDataLayerTests {
 	@Test
 	public void testUpdatePlace(){
 		//given
-		doAnswer(new Answer<Void>() {
+		doAnswer((Answer<Void>) invocation -> {
+			Object[] arguments = invocation.getArguments();
+			if (arguments != null && arguments.length > 1 && arguments[0] != null && arguments[1] != null) {
 
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable {
-				Object[] arguments = invocation.getArguments();
-				if (arguments != null && arguments.length > 1 && arguments[0] != null && arguments[1] != null) {
-
-					Place place = (Place) arguments[0];
-
-
-
-				}
-				return null;
+				Place place = (Place) arguments[0];
+				assertEquals("Burger King", place.getName());
+				assertEquals("Kraków", place.getLocalisation());
+				assertEquals("8-18", place.getOpeningHours());
+				assertEquals("593128065", place.getPhone());
 			}
+			return null;
 		}).when(placeDAO).updatePlace(any(Place.class));
+		Place p = new Place(4, "Burger King", "Kraków", "8-18", "593128065");
 		//when
-		//TODO DO ZROBIENIA JESZCZE
+		placeService.updatePlace(p);
 		//then
-		verify(placeDAO, times(1)).savePlace(new Place());
+		verify(placeDAO, times(1)).updatePlace(p);
 		verifyNoMoreInteractions(placeDAO);
 
 	}
 
+	@Test
+	public void testDeletePlace(){
+		//given
+		doAnswer((Answer<Void>) invocation -> {
+			Object[] arguments = invocation.getArguments();
+			if (arguments != null && arguments.length > 1 && arguments[0] != null && arguments[1] != null) {
+
+				Integer placeId = (Integer) arguments[0];
+
+				assertEquals(1, placeId.intValue());
+			}
+			return null;
+		}).when(placeDAO).deletePlace(any(Integer.class));
+		//when
+		placeService.deletePlace(1);
+		//then
+		verify(placeDAO, times(1)).deletePlace(1);
+		verifyNoMoreInteractions(placeDAO);
+
+	}
 
 }

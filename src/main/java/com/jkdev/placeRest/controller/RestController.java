@@ -21,31 +21,25 @@ public class RestController {
         this.placeService = placeService;
     }
 
-    @PostMapping("places/{placeId}/opinions")
-    public Opinion addOpinion(@RequestBody Opinion opinion, @PathVariable int placeId) {
-        if (placeService.getPlace(placeId) == null) {
-            throw new PlaceNotFoundException("Place id not found - " + placeId);
-        } else
-            placeService.addOpinionToPlace(placeId, opinion);
+    @GetMapping("/places")
+    public List<Place> getPlaces() {
+        if(placeService.getPlaces() == null){
+            throw new PlaceNotFoundException("No places found");
+        }
+        return placeService.getPlaces();
 
-        return opinion;
     }
 
-    @DeleteMapping("places/{placeId}/opinions/{opinionId}")
-    public String removeOpinion(@PathVariable int placeId, @PathVariable int opinionId) {
+    @GetMapping("/places/{placeId}")
+    public Place getPlace(@PathVariable int placeId) {
+
         Place place = placeService.getPlace(placeId);
 
         if (place == null) {
             throw new PlaceNotFoundException("Place id not found - " + placeId);
-        } else
-            for (Opinion tempOpinion : placeService.getOpinionsByPlaceId(placeId)) {
-                if (tempOpinion.getId() == opinionId) {
-                    placeService.removeOpinionByPlaceId(placeId, opinionId);
-                    return "Opinion with id: " + opinionId + " deleted successfully";
-                }
-            }
+        }
 
-        throw new OpinionNotFoundException("Opinion with id " + opinionId + " not found!");
+        return place;
     }
 
     @GetMapping("places/{placeId}/opinions")
@@ -71,6 +65,41 @@ public class RestController {
         throw new OpinionNotFoundException("Opinion with id " + opinionId + " not found!");
     }
 
+    @PostMapping("places/{placeId}/opinions")
+    public Opinion addOpinion(@RequestBody Opinion opinion, @PathVariable int placeId) {
+        if (placeService.getPlace(placeId) == null) {
+            throw new PlaceNotFoundException("Place id not found - " + placeId);
+        } else
+            placeService.addOpinionToPlace(placeId, opinion);
+
+        return opinion;
+    }
+
+    @PostMapping("/places")
+    public Place addPlace(@RequestBody Place place) {
+        for (Place servicePlace : placeService.getPlaces()) {
+            if (place.getName().equals(servicePlace.getName())) {
+                throw new PlaceAlreadyAddedException("Place is already in service!");
+            }
+        }
+        place.setId(0);
+
+        placeService.savePlace(place);
+
+        return place;
+    }
+
+
+    @PutMapping("/places")
+    public Place updatePlace(@RequestBody Place place) {
+        if(placeService.getPlace(place.getId()) == null){
+            throw new PlaceNotFoundException("Place not found");
+        }
+        placeService.updatePlace(place);
+
+        return place;
+    }
+
     @PutMapping("places/{placeId}/opinions/{opinionId}")
     public String updateOpinion(@RequestBody Opinion opinion, @PathVariable int placeId, @PathVariable int opinionId) {
         Place place = placeService.getPlace(placeId);
@@ -88,50 +117,28 @@ public class RestController {
         throw new OpinionNotFoundException("Opinion with id " + opinionId + " not found!");
     }
 
-    @GetMapping("/places")
-    public List<Place> getPlaces() {
-
-        return placeService.getPlaces();
-
-    }
-
-    @GetMapping("/places/{placeId}")
-    public Place getPlace(@PathVariable int placeId) {
-
+    @DeleteMapping("places/{placeId}/opinions/{opinionId}")
+    public String removeOpinion(@PathVariable int placeId, @PathVariable int opinionId) {
         Place place = placeService.getPlace(placeId);
 
         if (place == null) {
             throw new PlaceNotFoundException("Place id not found - " + placeId);
-        }
-
-        return place;
-    }
-
-    @PostMapping("/places")
-    public Place addPlace(@RequestBody Place place) {
-        for (Place servicePlace : placeService.getPlaces()) {
-            if (place.getName().equals(servicePlace.getName())) {
-                throw new PlaceAlreadyAddedException("Place is already in service!");
+        } else
+            for (Opinion tempOpinion : placeService.getOpinionsByPlaceId(placeId)) {
+                if (tempOpinion.getId() == opinionId) {
+                    placeService.removeOpinionByPlaceId(placeId, opinionId);
+                    return "Opinion with id: " + opinionId + " deleted successfully";
+                }
             }
-        }
-        place.setId(0);
 
-        placeService.savePlace(place);
-
-        return place;
-    }
-
-    @PutMapping("/places")
-    public Place updatePlace(@RequestBody Place place) {
-
-        placeService.updatePlace(place);
-
-        return place;
+        throw new OpinionNotFoundException("Opinion with id " + opinionId + " not found!");
     }
 
     @DeleteMapping("/places/{placeId}")
     public String deletePlace(@PathVariable int placeId) {
-
+        if(placeService.getPlace(placeId) == null){
+            throw new PlaceNotFoundException("Place not found");
+        }
         placeService.deletePlace(placeId);
 
         return "Deleted place with id - " + placeId;
