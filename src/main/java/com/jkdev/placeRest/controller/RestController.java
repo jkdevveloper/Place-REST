@@ -50,7 +50,6 @@ public class RestController {
 
     @GetMapping("places/{placeId}/opinions")
     public List<Opinion> getOpinionsByPlaceId(@PathVariable int placeId) {
-        //TODO zwraca opinie dla nieistniejącego Place'a
         if (placeService.getPlace(placeId) == null) {
             throw new PlaceNotFoundException("Place id not found - " + placeId);
         } else

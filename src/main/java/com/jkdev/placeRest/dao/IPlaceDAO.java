@@ -25,5 +25,5 @@ public interface IPlaceDAO {
 
     void updateOpinionByPlaceId(int placeId, int opinionId, Opinion opinion);
 
-    Place getBestRatedPlaces();
+    Place getBestRatedPlace();
 }

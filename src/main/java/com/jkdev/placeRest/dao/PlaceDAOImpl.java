@@ -103,7 +103,7 @@ public class PlaceDAOImpl implements IPlaceDAO {
     }
 
     @Override
-    public Place getBestRatedPlaces() {
+    public Place getBestRatedPlace() {
         Session currentSession = sessionFactory.getCurrentSession();
         Query<Place> query = currentSession.createQuery("from Place order by rate desc", Place.class);
 

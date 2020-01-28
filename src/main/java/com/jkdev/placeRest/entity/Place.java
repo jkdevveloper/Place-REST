@@ -1,5 +1,7 @@
 package com.jkdev.placeRest.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "places")
 public class Place {
     @Id
@@ -26,7 +29,16 @@ public class Place {
     private String phone;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "place", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Opinion> opinionList;
+
+    public Place(Integer id, String name, String localisation, String openingHours, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.localisation = localisation;
+        this.openingHours = openingHours;
+        this.phone = phoneNumber;
+    }
 
     public void addOpinion(Opinion opinion) {
         if (opinionList == null) {

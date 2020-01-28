@@ -14,9 +14,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "opinions")
 public class Opinion {
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "places_id", nullable = false)
-    @JsonIgnore
     @JsonBackReference
     private Place place;
 
