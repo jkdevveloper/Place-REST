@@ -8,6 +8,8 @@ To run API for yourself you have to use Maven and specify your own MySQL db cred
 mvn clean install
 
 mvn spring-boot:run
+
+mvn test -Dtest=com.jkdev.placeRest.*
 ```
 
 ## To get list of all places
