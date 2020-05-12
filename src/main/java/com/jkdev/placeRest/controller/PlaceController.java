@@ -9,15 +9,15 @@ import com.jkdev.placeRest.service.IPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
-
-public class RestController {
+@RestController
+public class PlaceController {
 
     private final IPlaceService placeService;
 
-    public RestController(@Autowired IPlaceService placeService) {
+    public PlaceController(@Autowired IPlaceService placeService) {
         this.placeService = placeService;
     }
 
