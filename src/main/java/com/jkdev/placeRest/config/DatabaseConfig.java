@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 @Configuration
 public class DatabaseConfig implements WebMvcConfigurer {
 
-    private Logger logger = Logger.getLogger(getClass().getName());
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**");
